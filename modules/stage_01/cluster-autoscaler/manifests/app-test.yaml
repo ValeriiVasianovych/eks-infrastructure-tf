@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: cls
+spec:
+  replicas: 7
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: aputra/myapp-195:v2
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 500m
+            limits:
+              memory: 512Mi
+              cpu: 500m

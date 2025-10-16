@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-application-alb  
+  namespace: lbc-app-alb
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodejs-application-alb
+  template:
+    metadata:
+      labels:
+        app: nodejs-application-alb
+    spec:
+      containers:
+        - name: nodejs-application-alb
+          image: valeriivasianovych/nodejs-example-app:v1
+          ports:
+            - name: http
+              containerPort: 3000
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 128Mi
+              cpu: 100m
