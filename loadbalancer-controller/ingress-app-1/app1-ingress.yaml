@@ -4,24 +4,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: grafana-ingress
-  namespace: monitoring
+  name: app1-ingress
+  namespace: app1-ingress
   annotations:
     cert-manager.io/cluster-issuer: "http-01-prod"
 spec:
   ingressClassName: external-nginx
   rules:
-    - host: grafana.valerii-vasianovych.site
+    - host: app1-ingress.valerii-vasianovych.site
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: prometheus-stack-grafana
+                name: app1-service
                 port:
-                  number: 80
+                  number: 3000
   tls:
     - hosts:
-        - grafana.valerii-vasianovych.site
-      secretName: grafana-ingress-tls 
+        - app1-ingress.valerii-vasianovych.site
+      secretName: app1-ingress-tls 

@@ -1,0 +1,32 @@
+---
+# Grafana Ingress for kube-prometheus-stack
+# Supported annotations: https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/guide/ingress/annotations/
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kube-prometheus-stack-grafana-ingress
+  namespace: monitoring
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-grafana"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+spec:
+  ingressClassName: external-nginx
+  rules:
+    - host: grafana.valerii-vasianovych.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kube-prometheus-stack-grafana
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - grafana.valerii-vasianovych.site
+      secretName: kube-prometheus-stack-grafana-tls 

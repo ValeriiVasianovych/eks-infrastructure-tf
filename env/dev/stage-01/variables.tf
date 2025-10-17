@@ -36,4 +36,7 @@ locals {
 
   # Charts versions
   cluster_autoscaler_version = "9.37.0"
+  lb_controller_version      = "1.7.2"
+  nginx_ingress_version      = "4.10.1"
+  cert_manager_version       = "v1.14.5"
 }

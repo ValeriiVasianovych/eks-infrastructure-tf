@@ -54,10 +54,10 @@ module "eks" {
   instance_types  = local.instance_types
   ingress_ports   = local.ingress_ports
 
-  coredns_version      = local.coredns_version
-  kube_proxy_version   = local.kube_proxy_version
-  vpc_cni_version      = local.vpc_cni_version
-  pod_identity_version = local.pod_identity_version
+  coredns_version        = local.coredns_version
+  kube_proxy_version     = local.kube_proxy_version
+  vpc_cni_version        = local.vpc_cni_version
+  pod_identity_version   = local.pod_identity_version
   metrics_server_version = local.metrics_server_version
 
   depends_on = [module.vpc]
@@ -89,11 +89,24 @@ module "ebs-csi-driver" {
 
 
 module "cluster-autoscaler" {
-  source          = "../../../modules/stage_01/cluster-autoscaler"
-  env             = var.env
-  prefix_name     = var.prefix_name
-  cluster_name    = module.eks.cluster_name
+  source                     = "../../../modules/stage_01/cluster-autoscaler"
+  env                        = var.env
+  prefix_name                = var.prefix_name
+  cluster_name               = module.eks.cluster_name
   cluster_autoscaler_version = local.cluster_autoscaler_version
+
+  depends_on = [module.eks]
+}
+
+module "lb-controller" {
+  source                = "../../../modules/stage_01/lb-controller"
+  env                   = var.env
+  prefix_name           = var.prefix_name
+  cluster_name          = module.eks.cluster_name
+  vpc_id                = module.vpc.vpc_id
+  lb_controller_version = local.lb_controller_version
+  nginx_ingress_version = local.nginx_ingress_version
+  cert_manager_version  = local.cert_manager_version
 
   depends_on = [module.eks]
 }
