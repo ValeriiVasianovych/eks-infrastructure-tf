@@ -39,9 +39,10 @@ provider "helm" {
 module "monitoring" {
   source = "../../../modules/stage_02/monitoring"
 
-  region          = local.vpc_region
-  env             = local.vpc_env
-  cluster_name    = local.cluster_name
-  cluster_iam_arn = local.cluster_iam_role_arn
-  # hosted_zone     = var.hosted_zone
+  region           = local.vpc_region
+  env              = local.vpc_env
+  cluster_name     = local.cluster_name
+  cluster_iam_arn  = local.cluster_iam_role_arn
+  hosted_zone_name = var.hosted_zone_name
+  account_id       = data.aws_caller_identity.current.account_id
 }

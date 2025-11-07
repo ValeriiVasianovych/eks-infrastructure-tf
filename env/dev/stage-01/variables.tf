@@ -24,7 +24,7 @@ locals {
   max_unavailable = 1
   capacity_type   = "ON_DEMAND"
   instance_types  = "t3.small"
-  ingress_ports   = [80, 443]
+  ingress_ports   = [80, 443, 3000]
 
   # Addon versions
   coredns_version        = "v1.12.4-eksbuild.1"

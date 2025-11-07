@@ -10,6 +10,12 @@ variable "env" {
   default     = ""
 }
 
+variable "account_id" {
+  description = "The AWS account ID"
+  type        = string
+  default     = ""
+}
+
 variable "cluster_name" {
   description = "The name of the EKS cluster"
   type        = string
@@ -28,7 +34,7 @@ variable "kube_prometheus_stack_version" {
   default     = ""
 }
 
-variable "hosted_zone" {
+variable "hosted_zone_name" {
   description = "The hosted zone name"
   type        = string
   default     = ""

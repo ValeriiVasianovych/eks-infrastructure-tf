@@ -4,8 +4,8 @@ variable "kube_prometheus_stack_version" {
   default     = "75.15.0"
 }
 
-variable "hosted_zone" {
+variable "hosted_zone_name" {
   description = "The hosted zone name"
   type        = string
-  default     = ""
+  # default     = "domain.xyz"
 }
