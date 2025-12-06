@@ -1,7 +1,9 @@
 resource "kubernetes_ingress_v1" "grafana" {
+  depends_on = [kubernetes_namespace.monitoring, helm_release.kube-prometheus-stack]
+
   metadata {
     name      = "kube-prometheus-stack-grafana"
-    namespace = "monitoring"
+    namespace = kubernetes_namespace.monitoring.metadata[0].name
 
     annotations = {
       "alb.ingress.kubernetes.io/backend-protocol"     = "HTTP"
@@ -12,7 +14,7 @@ resource "kubernetes_ingress_v1" "grafana" {
       "alb.ingress.kubernetes.io/listen-ports"         = "[{\"HTTPS\": 443}]"
       "alb.ingress.kubernetes.io/scheme"               = "internet-facing"
       "alb.ingress.kubernetes.io/target-type"          = "ip"
-      "alb.ingress.kubernetes.io/tags"                = "account_id=${var.account_id},environment=${var.env}"
+      "alb.ingress.kubernetes.io/tags"                 = "account_id=${var.account_id},environment=${var.env}"
       "kubernetes.io/ingress.class"                    = "alb"
     }
   }

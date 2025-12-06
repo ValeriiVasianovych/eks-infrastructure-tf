@@ -26,11 +26,15 @@ resource "aws_route53_record" "grafana_domain_cert_validation" {
 }
 
 resource "aws_acm_certificate_validation" "grafana_domain_cert_validation" {
+  depends_on = [aws_route53_record.grafana_domain_cert_validation]
+
   certificate_arn         = aws_acm_certificate.grafana_domain_cert.arn
   validation_record_fqdns = [for record in aws_route53_record.grafana_domain_cert_validation : record.fqdn]
 }
 
 resource "aws_route53_record" "grafana_domain_record" {
+  depends_on = [kubernetes_ingress_v1.grafana, data.aws_lb.shared_alb]
+
   zone_id = data.aws_route53_zone.main.id
   name    = "grafana.${var.hosted_zone_name}"
   type    = "A"
@@ -40,6 +44,4 @@ resource "aws_route53_record" "grafana_domain_record" {
     zone_id                = data.aws_lb.shared_alb.zone_id
     evaluate_target_health = true
   }
-
-  depends_on = [data.aws_lb.shared_alb, helm_release.kube-prometheus-stack]
 }

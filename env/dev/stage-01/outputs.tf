@@ -104,3 +104,21 @@ output "node_group_instance_types" {
   value       = module.eks.node_group_instance_types
   description = "The instance types of the EKS node group"
 }
+
+# EBS CSI Driver Outputs
+output "ebs_csi_driver_iam_role_arn" {
+  value       = module.ebs-csi-driver.ebs_csi_driver_iam_role_arn
+  description = "The IAM role ARN for the EBS CSI driver"
+}
+
+# Cluster Autoscaler Outputs
+output "cluster_autoscaler_iam_role_arn" {
+  value       = module.cluster-autoscaler.cluster_autoscaler_iam_role_arn
+  description = "The IAM role ARN for the cluster autoscaler"
+}
+
+# Load Balancer Controller Outputs
+output "lb_controller_iam_role_arn" {
+  value       = module.lb-controller.lb_controller_iam_role_arn
+  description = "The IAM role ARN for the AWS Load Balancer Controller"
+}

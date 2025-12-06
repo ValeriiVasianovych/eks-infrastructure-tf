@@ -19,7 +19,7 @@ variable "prefix_name" {
 locals {
   cluster_version = "1.33"
   desired_size    = 2
-  max_size        = 8
+  max_size        = 10
   min_size        = 2
   max_unavailable = 1
   capacity_type   = "ON_DEMAND"
@@ -35,7 +35,7 @@ locals {
   metrics_server_version = "v0.8.0-eksbuild.2"
 
   # Charts versions
-  cluster_autoscaler_version = "9.37.0"
+  cluster_autoscaler_version = "9.52.1"
   lb_controller_version      = "1.7.2"
   nginx_ingress_version      = "4.10.1"
   cert_manager_version       = "v1.14.5"

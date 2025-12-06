@@ -1,7 +1,9 @@
 resource "kubernetes_ingress_v1" "prometheus" {
+  depends_on = [kubernetes_namespace.monitoring, helm_release.kube-prometheus-stack]
+
   metadata {
     name      = "kube-prometheus-stack-prometheus"
-    namespace = "monitoring"
+    namespace = kubernetes_namespace.monitoring.metadata[0].name
 
     annotations = {
       "alb.ingress.kubernetes.io/backend-protocol"     = "HTTP"
