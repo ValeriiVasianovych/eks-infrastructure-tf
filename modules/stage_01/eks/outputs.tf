@@ -67,3 +67,13 @@ output "node_group_instance_types" {
   value       = aws_eks_node_group.nodes.instance_types
   description = "The instance types of the EKS node group"
 }
+
+output "ecr_auth_role_name" {
+  value       = aws_iam_role.ecr_auth_role.name
+  description = "The IAM role name for ECR authentication"
+}
+
+output "ecr_auth_role_arn" {
+  value       = aws_iam_role.ecr_auth_role.arn
+  description = "The IAM role ARN for ECR authentication"
+}

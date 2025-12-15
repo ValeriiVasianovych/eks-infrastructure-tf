@@ -21,7 +21,7 @@ resource "kubernetes_ingress_v1" "prometheus" {
 
   spec {
     rule {
-      host = "prometheus.${var.hosted_zone_name}"
+      host = "${var.env}.prometheus.${var.hosted_zone_name}"
 
       http {
         path {

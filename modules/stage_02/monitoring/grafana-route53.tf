@@ -1,5 +1,5 @@
 resource "aws_acm_certificate" "grafana_domain_cert" {
-  domain_name       = "grafana.${data.aws_route53_zone.main.name}"
+  domain_name       = "${var.env}.grafana.${data.aws_route53_zone.main.name}"
   validation_method = "DNS"
 
   tags = {
@@ -36,7 +36,7 @@ resource "aws_route53_record" "grafana_domain_record" {
   depends_on = [kubernetes_ingress_v1.grafana, data.aws_lb.shared_alb]
 
   zone_id = data.aws_route53_zone.main.id
-  name    = "grafana.${var.hosted_zone_name}"
+  name    = "${var.env}.grafana.${var.hosted_zone_name}"
   type    = "A"
 
   alias {

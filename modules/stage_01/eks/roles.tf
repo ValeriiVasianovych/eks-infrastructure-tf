@@ -65,3 +65,62 @@ resource "aws_iam_role_policy_attachment" "amazon_ebs_csi_driver" {
   role       = aws_iam_role.nodes.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
+
+resource "aws_iam_openid_connect_provider" "eks" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.eks.identity[0].oidc[0].issuer
+
+  tags = {
+    Name = "${var.prefix_name}-eks-oidc-${var.env}"
+  }
+}
+
+resource "aws_iam_role" "ecr_auth_role" {
+  name = "${var.prefix_name}-ecr-auth-role-${var.env}"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Federated = aws_iam_openid_connect_provider.eks.arn
+        }
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Condition = {
+          StringLike = {
+            "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:sub" = "system:serviceaccount:*:ecr-auth-access"
+          }
+          StringEquals = {
+            "${replace(aws_iam_openid_connect_provider.eks.url, "https://", "")}:aud" = "sts.amazonaws.com"
+          }
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecr_auth_role" {
+  role       = aws_iam_role.ecr_auth_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
+}
+
+resource "aws_eks_access_entry" "automation" {
+  count         = var.automation_role_arn != "" ? 1 : 0
+  cluster_name  = aws_eks_cluster.eks.name
+  principal_arn = var.automation_role_arn
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "automation" {
+  count         = var.automation_role_arn != "" ? 1 : 0
+  cluster_name  = aws_eks_cluster.eks.name
+  policy_arn    = var.automation_access_policy_arn
+  principal_arn = var.automation_role_arn
+
+  access_scope {
+    type = "cluster"
+  }
+
+  depends_on = [aws_eks_access_entry.automation]
+}

@@ -7,7 +7,7 @@ variable "region" {
 variable "env" {
   description = "The environment"
   type        = string
-  # default     = "development"
+  # default     = "production"
 }
 
 variable "prefix_name" {

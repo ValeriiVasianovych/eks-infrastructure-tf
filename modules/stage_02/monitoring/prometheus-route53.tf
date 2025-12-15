@@ -1,5 +1,5 @@
 resource "aws_acm_certificate" "prometheus_domain_cert" {
-  domain_name       = "prometheus.${data.aws_route53_zone.main.name}"
+  domain_name       = "${var.env}.prometheus.${data.aws_route53_zone.main.name}"
   validation_method = "DNS"
 
   tags = {
@@ -36,7 +36,7 @@ resource "aws_route53_record" "prometheus_domain_record" {
   depends_on = [kubernetes_ingress_v1.prometheus, data.aws_lb.shared_alb]
 
   zone_id = data.aws_route53_zone.main.id
-  name    = "prometheus.${var.hosted_zone_name}"
+  name    = "${var.env}.prometheus.${var.hosted_zone_name}"
   type    = "A"
 
   alias {

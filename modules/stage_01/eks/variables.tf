@@ -16,6 +16,18 @@ variable "prefix_name" {
   default     = ""
 }
 
+variable "automation_role_arn" {
+  description = "The ARN of the automation role for EKS access entry"
+  type        = string
+  default     = ""
+}
+
+variable "automation_access_policy_arn" {
+  description = "The ARN of the access policy for automation role"
+  type        = string
+  default     = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+}
+
 variable "account_id" {
   description = "The AWS account ID"
   type        = string

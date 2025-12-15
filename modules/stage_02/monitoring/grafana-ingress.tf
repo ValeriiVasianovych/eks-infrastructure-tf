@@ -21,7 +21,7 @@ resource "kubernetes_ingress_v1" "grafana" {
 
   spec {
     rule {
-      host = "grafana.${var.hosted_zone_name}"
+      host = "${var.env}.grafana.${var.hosted_zone_name}"
 
       http {
         path {
