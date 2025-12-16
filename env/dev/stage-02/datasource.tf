@@ -48,8 +48,3 @@ data "aws_eks_cluster" "eks" {
 data "aws_eks_cluster_auth" "eks" {
   name = local.cluster_name
 }
-
-# data "hosted_zone" "selected" {
-#   name         = var.hosted_zone_name
-#   private_zone = false
-# }

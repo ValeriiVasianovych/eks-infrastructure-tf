@@ -1,4 +1,3 @@
-
 resource "aws_eip" "nat" {
   count = length(aws_subnet.private_subnets)
   tags = {

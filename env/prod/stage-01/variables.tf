@@ -23,12 +23,12 @@ variable "automation_role_arn" {
 
 locals {
   cluster_version = "1.33"
-  desired_size    = 2
-  max_size        = 10
-  min_size        = 2
+  desired_size    = 4
+  max_size        = 12
+  min_size        = 4
   max_unavailable = 1
   capacity_type   = "ON_DEMAND"
-  instance_types  = "t3.small"
+  instance_types  = "t3.medium"
   ingress_ports   = [80, 443, 3000]
 
   # Addon versions

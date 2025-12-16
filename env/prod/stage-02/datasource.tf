@@ -3,7 +3,7 @@ data "terraform_remote_state" "terraform-states-vv" {
   config = {
     bucket  = "terraform-states-vv"
     encrypt = true
-    key     = "aws-eks-automation/dev/stage-01/infra.tfstate"
+    key     = "aws-eks-automation/prod/stage-01/infra.tfstate"
     region  = "us-east-1"
   }
 }
@@ -48,8 +48,3 @@ data "aws_eks_cluster" "eks" {
 data "aws_eks_cluster_auth" "eks" {
   name = local.cluster_name
 }
-
-# data "hosted_zone" "selected" {
-#   name         = var.hosted_zone_name
-#   private_zone = false
-# }

@@ -36,6 +36,8 @@ provider "helm" {
   }
 }
 
+provider "time" {}
+
 module "monitoring" {
   source = "../../../modules/stage_02/monitoring"
 
@@ -45,4 +47,6 @@ module "monitoring" {
   cluster_iam_arn  = local.cluster_iam_role_arn
   hosted_zone_name = var.hosted_zone_name
   account_id       = data.aws_caller_identity.current.account_id
+
+  kube_prometheus_stack_version = var.kube_prometheus_stack_version
 }

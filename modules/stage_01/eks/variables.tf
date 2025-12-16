@@ -125,12 +125,6 @@ variable "pod_identity_version" {
   default     = ""
 }
 
-# variable "cluster_autoscaler_version" {
-#   description = "Version of Cluster Autoscaler addon"
-#   type        = string
-#   default     = ""
-# }
-
 variable "metrics_server_version" {
   description = "Version of Metrics Server addon"
   type        = string

@@ -1,9 +1,9 @@
 resource "kubernetes_ingress_v1" "prometheus" {
-  depends_on = [kubernetes_namespace.monitoring, helm_release.kube-prometheus-stack]
+  depends_on = [kubernetes_namespace_v1.monitoring, helm_release.kube-prometheus-stack]
 
   metadata {
     name      = "kube-prometheus-stack-prometheus"
-    namespace = kubernetes_namespace.monitoring.metadata[0].name
+    namespace = kubernetes_namespace_v1.monitoring.metadata[0].name
 
     annotations = {
       "alb.ingress.kubernetes.io/backend-protocol"     = "HTTP"
@@ -21,7 +21,7 @@ resource "kubernetes_ingress_v1" "prometheus" {
 
   spec {
     rule {
-      host = "${var.env}.prometheus.${var.hosted_zone_name}"
+      host = "prometheus.${var.env}.${var.hosted_zone_name}"
 
       http {
         path {

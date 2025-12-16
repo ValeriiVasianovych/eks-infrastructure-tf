@@ -36,6 +36,8 @@ provider "helm" {
   }
 }
 
+provider "time" {}
+
 module "monitoring" {
   source = "../../../modules/stage_02/monitoring"
 
